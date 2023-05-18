@@ -1,0 +1,58 @@
+<style>
+  body {
+    cursor: none;
+  }
+
+  .cursor__ball {
+    position: fixed;
+    mix-blend-mode: difference;
+    z-index: 1000;
+    background-color: #f7f8fa;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition: transform 0.3s;
+    pointer-events: none;
+  }
+
+  .hoverable {
+    cursor: pointer;
+  }
+
+  .hoverable:hover + .cursor__ball,
+  .cursor__ball.hovered {
+    transform: translate(-50%, -50%) scale(4);
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const ball = document.createElement('div');
+    ball.className = 'cursor__ball';
+    document.body.appendChild(ball);
+
+    function updateCursorPosition(event) {
+      ball.style.left = `${event.clientX}px`;
+      ball.style.top = `${event.clientY}px`;
+    }
+
+    function onMouseMove(event) {
+      updateCursorPosition(event);
+    }
+
+    document.addEventListener('mousemove', onMouseMove);
+
+    const hoverableElements = document.querySelectorAll('.hoverable');
+
+    hoverableElements.forEach(function (element) {
+      element.addEventListener('mouseenter', function () {
+        ball.classList.add('hovered');
+      });
+
+      element.addEventListener('mouseleave', function () {
+        ball.classList.remove('hovered');
+      });
+    });
+  });
+</script>
